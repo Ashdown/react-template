@@ -110,7 +110,7 @@ getPeople = async (req, res) => {
         if (!people.length) {
             return res
                 .status(404)
-                .json({ success: false, error: `Person not found` })
+                .json({ success: false, error: `people not found` })
         }
         return res.status(200).json({ success: true, data: people })
     }).catch(err => console.log(err))

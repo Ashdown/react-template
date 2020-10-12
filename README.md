@@ -24,13 +24,15 @@ Demo React App
 1. Run Mongo Shell `mongo`
 2. `use react-template`
 
-
 ### Install App
 1. `npm install`
 
 ### Run App Locally
 1. `npm start`
 2. Visit [localhost:3000](http://localhost:3000/)
+3. `cd ./client`
+4. `npm start`
+5. Visit [localhost:8000](http://localhost:8000/)
 
 ## Links
 * [Create a MERN app](https://medium.com/swlh/how-to-create-your-first-mern-mongodb-express-js-react-js-and-node-js-stack-7e8b20463e66)
