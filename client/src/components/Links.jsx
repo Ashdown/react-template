@@ -1,41 +1,21 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-
-const Collapse = styled.div.attrs({
-    className: 'collpase navbar-collapse',
-})``
-
-const List = styled.div.attrs({
-    className: 'navbar-nav mr-auto',
-})``
-
-const Item = styled.div.attrs({
-    className: 'collpase navbar-collapse',
-})``
+import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 
 class Links extends Component {
     render() {
         return (
-            <React.Fragment>
+            <>
                 <Link to="/" className="navbar-brand">
-                    My first MERN Application
+                    React Template App
                 </Link>
-                <Collapse>
-                    <List>
-                        <Item>
-                            <Link to="/people/list" className="nav-link">
-                                List People
-                            </Link>
-                        </Item>
-                        <Item>
-                            <Link to="/people/create" className="nav-link">
-                                Create People
-                            </Link>
-                        </Item>
-                    </List>
-                </Collapse>
-            </React.Fragment>
+                <ul>
+                    <li>
+                        <Link to="/people" className="nav-link">
+                            People: Vanilla React
+                        </Link>
+                    </li>
+                </ul>
+            </>
         )
     }
 }

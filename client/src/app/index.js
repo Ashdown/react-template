@@ -11,13 +11,7 @@ function App() {
         <Router>
             <NavBar />
             <Switch>
-                <Route path="/people/list" exact component={PeopleList} />
-                <Route path="/people/create" exact component={PeopleInsert} />
-                <Route
-                    path="/people/update/:id"
-                    exact
-                    component={PeopleUpdate}
-                />
+                <Route path="/people" exact component={PeopleList} />
             </Switch>
         </Router>
     )

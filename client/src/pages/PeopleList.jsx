@@ -53,8 +53,6 @@ class PeopleList extends Component {
         })
     }
 
-
-
     render() {
         const {people} = this.state
         return (
