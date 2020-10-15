@@ -28,8 +28,10 @@ Demo React App
 1. `npm install`
 
 ### Run App Locally
+#### Run Service App
 1. `npm start`
 2. Visit [localhost:3000](http://localhost:3000/)
+#### Run Client App
 3. `cd ./client`
 4. `npm start`
 5. Visit [localhost:8000](http://localhost:8000/)

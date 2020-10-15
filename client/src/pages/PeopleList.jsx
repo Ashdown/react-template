@@ -2,10 +2,10 @@ import React, {Component} from 'react'
 import ReactTable from 'react-table'
 import api from '../api'
 
-const Person = ({name, age}) =>
+const Person = ({data, onDeletePerson}) =>
     <li>
-        {name} ({age})
-        <button>Delete</button>
+        {data.name} ({data.age})
+        <button onClick={onDeletePerson(data._id)}>Delete</button>
     </li>
 
 class PeopleList extends Component {
@@ -23,22 +23,56 @@ class PeopleList extends Component {
             this.setState({
                 people: people.data.data,
             })
+            console.log('people', people)
         })
     }
 
-    addSteve = () => api.insertPerson({name: 'Steve', age: 30}).then(response => console.log('response', response))
+    onAddPerson = event => {
+        event.preventDefault()
+        const {elements} = event.target
+        const name = elements.name.value
+        const age = elements.age.value
+        api.insertPerson({name, age}).then(response => {
+            if (response.status === 201) {
+                const newPeople = [{name, age}]
+                this.setState({people: this.state.people.concat(newPeople)})
+            }
+        })
+    }
+
+    onDeletePerson = personId => event => {
+        event.preventDefault()
+        api.deletePersonById(personId).then(response => {
+            if(response.stats = 200) {
+                this.setState({
+                    people: this.state.people.filter( person => person._id !== personId)
+                })
+
+            }
+
+        })
+    }
+
+
 
     render() {
         const {people} = this.state
-
         return (
             <div>
                 <h1>People List</h1>
-                <button onClick={this.addSteve}>Add Steve</button>
+                <h2>Add New Person</h2>
+                <form onSubmit={this.onAddPerson}>
+                    <input type="text" placeholder="Enter name..." name="name"/>
+                    <input type="number" placeholder="Age..." name="age"/>
+                    <button type="submit">Add</button>
+                </form>
                 {people.length > 0 &&
-                <ul>
-                    {people.map(person => <Person {...person}/>)}
-                </ul>
+                <>
+                    <h2>All People</h2>
+                    <ul>
+                        {people.map((person, index) => <Person key={index} data={person} onDeletePerson={this.onDeletePerson}/>)}
+                    </ul>
+                </>
                 }
             </div>
         )
