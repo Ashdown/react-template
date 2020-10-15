@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import ReactTable from 'react-table'
 import api from '../api'
 
 const Person = ({data, onDeletePerson}) =>
@@ -43,7 +42,7 @@ class PeopleList extends Component {
     onDeletePerson = personId => event => {
         event.preventDefault()
         api.deletePersonById(personId).then(response => {
-            if(response.stats = 200) {
+            if(response.status === 200) {
                 this.setState({
                     people: this.state.people.filter( person => person._id !== personId)
                 })
