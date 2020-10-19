@@ -6,10 +6,13 @@ const api = axios.create({
 
 export const getAllPeople = () => api.get(`/people`)
 export const deletePersonById = id => api.delete(`/people/${id}`)
+export const insertPerson = payload => api.post(`/people`, payload)
+
 
 const apis = {
     getAllPeople,
     deletePersonById,
+    insertPerson,
 }
 
 export default apis
