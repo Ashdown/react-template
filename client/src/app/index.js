@@ -1,19 +1,28 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
-import { NavBar } from '../components'
-import { PeopleList } from '../pages'
+import rootReducer from '../reducers'
+import {Provider} from 'react-redux'
+import {createStore} from 'redux'
+
+import {NavBar} from '../components'
+import {PeopleList, AnimalList} from '../pages'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+const store = createStore(rootReducer)
+
 function App() {
     return (
-        <Router>
-            <NavBar />
-            <Switch>
-                <Route path="/people" exact component={PeopleList} />
-            </Switch>
-        </Router>
+        <Provider store={store}>
+            <Router>
+                <NavBar/>
+                <Switch>
+                    <Route path="/people" exact component={PeopleList}/>
+                    <Route path="/animals" exact component={AnimalList}/>
+                </Switch>
+            </Router>
+        </Provider>
     )
 }
 

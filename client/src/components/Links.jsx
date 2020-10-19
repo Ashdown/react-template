@@ -21,6 +21,7 @@ const useStyles = makeStyles({
     list: {
         padding: 0,
         margin: 0,
+        display: 'flex'
     },
     item: {
         listStyleType: 'none',
@@ -47,6 +48,17 @@ const useStyles = makeStyles({
     }
 })
 
+const LINK_DATA = [
+    {
+        label: 'People: Vanilla React',
+        to: '/people'
+    },
+    {
+        label: 'Animals: Redux',
+        to: '/animals'
+    }
+]
+
 const Links = () => {
     const classes = useStyles()
     return (
@@ -55,11 +67,13 @@ const Links = () => {
                 React Template App
             </Link>
             <ul className={classes.list}>
-                <li className={classes.item}>
-                    <Link className={classes.navLink} to="/people">
-                        People: Vanilla React
-                    </Link>
-                </li>
+                { LINK_DATA.map( (data, index) =>
+                    <li key={index} className={classes.item}>
+                        <Link className={classes.navLink} to={data.to}>
+                            {data.label}
+                        </Link>
+                    </li>
+                )}
             </ul>
         </div>
     )
