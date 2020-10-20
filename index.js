@@ -5,7 +5,8 @@ const db = require('./db')
 const router = require('./routes/router.js')
 
 const app = express()
-const apiPort = 3000
+const port = 3000
+const staticDirectory = `//localhost:${port}/static/`
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
@@ -13,10 +14,8 @@ app.use(bodyParser.json())
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
-app.get('/', (req, res) => {
-    res.send('Hello World!!')
-})
+app.get('/', (req, res) => res.render('home.ejs', {static_directory: staticDirectory}))
 
 app.use('/api', router)
 
-app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))
+app.listen(port, () => console.log(`Server running on port ${port}`))
