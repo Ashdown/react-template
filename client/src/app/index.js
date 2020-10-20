@@ -8,8 +8,6 @@ import {createStore} from 'redux'
 import {NavBar} from '../components'
 import {PeopleList, AnimalList} from '../pages'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-
 const store = createStore(rootReducer)
 
 function App() {
