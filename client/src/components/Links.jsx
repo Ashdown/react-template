@@ -56,6 +56,10 @@ const LINK_DATA = [
     {
         label: 'Animals: Redux',
         to: '/animals'
+    },
+    {
+        label: 'Tools: TODO',
+        to: '/tools'
     }
 ]
 

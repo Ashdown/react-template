@@ -15,10 +15,10 @@ class PeopleList extends Component {
         }
     }
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
         this.setState({isLoading: true})
 
-        await api.getAllPeople().then(people => {
+        api.getAllPeople().then(people => {
             this.setState({
                 people: people.data.data,
             })

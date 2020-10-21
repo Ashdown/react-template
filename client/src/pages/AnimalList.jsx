@@ -11,9 +11,9 @@ const Animal = ({data, onDeleteAnimal}) =>
 
 class AnimalList extends Component {
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
         const {loadAnimals} = this.props
-        await api.getAllAnimals().then(response => {
+        api.getAllAnimals().then(response => {
             if (response.status === 200) {
                 loadAnimals(response.data.data)
             }
