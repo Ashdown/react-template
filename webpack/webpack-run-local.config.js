@@ -18,17 +18,17 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(js|jsx|ts|tsx)$/,
                 exclude: /node_modules/,
                 loader: "babel-loader",
                 options: {
-                    presets: ['@babel/preset-env', '@babel/react'],
+                    presets: ['@babel/preset-env', '@babel/react', '@babel/preset-typescript'],
                     plugins: ['@babel/plugin-proposal-class-properties']
                 }
             }
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
     }
 }
