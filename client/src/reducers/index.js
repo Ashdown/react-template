@@ -4,5 +4,5 @@ import tools from './tools'
 
 export default combineReducers({
     animals,
-    tools,
+    tools
 })

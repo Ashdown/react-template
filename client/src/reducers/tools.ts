@@ -1,21 +1,17 @@
-import { LOAD_TOOLS, ADD_TOOL, DELETE_TOOL } from '../actions/tools'
+import {ActionTypes, Tool, Action} from '../actions/tools'
 
-const tools = (state = [], action) => {
+const tools = (state: Tool[] = [], action: Action):Tool[] => {
     switch (action.type) {
-        case LOAD_TOOLS:
+        case ActionTypes.LOAD_TOOLS:
             return action.data
-        case ADD_TOOL:
-            const { data = {} } = action
+        case ActionTypes.ADD_TOOL:
+            const {data} = action
             return [
                 ...state,
-                {
-                    _id: data._id,
-                    name: data.name,
-                    legs: data.legs
-                }
+                data || {},
             ]
-        case DELETE_TOOL:
-            const { _id } = action
+        case ActionTypes.DELETE_TOOL:
+            const {_id} = action
             return state.filter(tool => tool._id !== _id)
         default:
             return state

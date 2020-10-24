@@ -1,115 +1,70 @@
-import React, {Component, useState, useRef} from 'react'
-import api from '../api'
-import {addTool, deleteTool, loadTools} from '../actions/tools'
+import React, {useEffect, useRef} from 'react'
+import api from '../api/index'
+import {addTool, deleteTool, loadTools, Tool} from '../actions/tools'
 import {connect} from 'react-redux'
-//props
-//hooks
-//render props
+import {ToolItem} from '../components/'
 
-interface PersonData {
-    _id: string,
-    name: string,
-    points: number
+interface ToolListProps {
+    loadTools: (data:Tool[]) => void,
+    addTool: (data:Tool) => void,
+    deleteTool: (_id:string) => void,
+    tools: Tool[],
 }
 
-interface Props {
-    data: PersonData,
-    onDeleteTool: (_id: string) => React.MouseEventHandler,
-}
+const ToolList: React.FC<ToolListProps> = ({loadTools, addTool, deleteTool, tools}) => {
 
-const Tool: React.FC<Props> = ({data, onDeleteTool}) => {
+    const nameRef = useRef<HTMLInputElement>(null)
+    const pointsRef = useRef<HTMLInputElement>(null)
 
-    // const [clickCount, setClickCount] = useState<number|null>(0)
+    const onAddTool = (event:React.FormEvent<HTMLFormElement>):void => {
+        event.preventDefault()
+        const name:string = nameRef.current && nameRef.current.value ? nameRef.current.value : ''
+        const points:number = pointsRef.current && pointsRef.current.value ? parseInt(pointsRef.current.value) : 0
+        api.insertTool({name, points}).then((newTool:Tool) => addTool(newTool))
+    }
 
-    // setClickCount(null)
+    const onDeleteTool = (toolId:string) => (event:React.MouseEvent):void => {
+        event.preventDefault()
+        api.deleteToolById(toolId).then(() => deleteTool(toolId))
+    }
 
-    const itemRef = useRef<HTMLLIElement>(null)
+    useEffect(() => {
+        api.getAllTools().then((tools:Tool[])=>loadTools(tools))
+    }, [])
 
     return (
-        <li ref={itemRef}>
-            {data.name} ({data.points})
-            <button onClick={onDeleteTool(data._id)}>Delete</button>
-        </li>
+        <div>
+            <h1>Tool List</h1>
+            <h2>Add New Tool</h2>
+            <form onSubmit={onAddTool}>
+                <input ref={nameRef} type="text" placeholder="Enter name..." name="name"/>
+                <input ref={pointsRef} type="number" placeholder="Points..." name="points"/>
+                <button type="submit">Add</button>
+            </form>
+            {tools.length > 0 &&
+            <>
+                <h2>All Tool</h2>
+                <ul>
+                    {tools.map((tool, index) => <ToolItem key={index} data={tool} onDeleteTool={onDeleteTool}/>)}
+                </ul>
+            </>
+            }
+        </div>
     )
 }
 
-interface ToolListProps {
-
+interface State {
+    tools: Tool[]
 }
 
-interface ToolListState {
-
-}
-
-class ToolList extends Component<ToolListProps, ToolListState> {
-
-    componentDidMount = () => {
-
-        const {loadTools} = this.props
-        api.getAllTools().then(response => {
-            if (response.status === 200) {
-                loadTools(response.data.data)
-            }
-        })
-    }
-
-    onAddTool = event => {
-        event.preventDefault()
-        const {elements} = event.target
-        const name = elements.name.value
-        const points = elements.points.value
-        api.insertTool({name, points}).then(response => {
-            if (response.status === 201) {
-                const {data} = response
-                const {_id} = data
-                const newTool = [{_id, name, points}]
-                addTool(newTool)
-            }
-        })
-    }
-
-    onDeleteTool = toolId => event => {
-        event.preventDefault()
-        api.deleteToolById(toolId).then(response => {
-            if (response.status === 200) {
-                deleteTool(toolId)
-            }
-
-        })
-    }
-
-    render() {
-        const {tools} = this.props
-        return (
-            <div>
-                <h1>Tool List</h1>
-                <h2>Add New Tool</h2>
-                <form onSubmit={this.onAddTool}>
-                    <input type="text" placeholder="Enter name..." name="name"/>
-                    <input type="number" placeholder="Points..." name="points"/>
-                    <button type="submit">Add</button>
-                </form>
-                {tools.length > 0 &&
-                <>
-                    <h2>All Tool</h2>
-                    <ul>
-                        {tools.map((tool, index) => <Tool key={index} data={tool} onDeleteTool={this.onDeleteTool}/>)}
-                    </ul>
-                </>
-                }
-            </div>
-        )
-    }
-}
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:State) => ({
     tools: state.tools
 })
 
-const mapDispatchToProps = dispatch => ({
-    loadTools: data => dispatch(loadTools(data)),
-    addTool: data => dispatch(addTool(data)),
-    deleteTool: _id => dispatch(deleteTool(_id))
+const mapDispatchToProps = (dispatch:any) => ({
+    loadTools: (data:Tool[]) => dispatch(loadTools(data)),
+    addTool: (data:Tool) => dispatch(addTool(data)),
+    deleteTool: (_id:string) => dispatch(deleteTool(_id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToolList)

@@ -1,21 +1,40 @@
-//action types
-export const LOAD_TOOLS = 'LOAD_TOOLS'
-export const ADD_TOOL = 'ADD_TOOL'
-export const DELETE_TOOL = 'DELETE_TOOL'
+export enum ActionTypes {
+    LOAD_TOOLS = 'load_tools',
+    ADD_TOOL = 'add_tool',
+    DELETE_TOOL = 'delete_tool'
+}
 
-//action creators
+export interface Tool {
+    _id: string,
+    name: string,
+    points: number
+}
 
-export const loadTools = data => ({
-    type: LOAD_TOOLS,
+export type Action =
+    {
+        type: ActionTypes.LOAD_TOOLS
+        data: Tool[]
+    } |
+    {
+        type: ActionTypes.ADD_TOOL
+        data: Tool,
+    } |
+    {
+        type: ActionTypes.DELETE_TOOL
+        _id: string
+    }
+
+export const loadTools = (data:Tool[]):Action => ({
+    type: ActionTypes.LOAD_TOOLS,
     data,
 })
 
-export const addTool = data => ({
-    type: ADD_TOOL,
+export const addTool = (data:Tool):Action => ({
+    type: ActionTypes.ADD_TOOL,
     data,
 })
 
-export const deleteTool = _id => ({
-    type: DELETE_TOOL,
+export const deleteTool = (_id:string):Action => ({
+    type: ActionTypes.DELETE_TOOL,
     _id
 })
